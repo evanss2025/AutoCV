@@ -22,22 +22,25 @@ export default function Home() {
     <div className="flex flex-col justify-center items-center min-h-screen w-1/4">
       {/* <h3>{message}</h3> */}
       <h1 className="text-6xl font-bold m-6">AutoCV</h1>
-      <h3 className="text-lg">Link your LinkedIn profile below</h3>
+      <h3 className="text-lg">Upload your LinkedIn data below:</h3>
 
-      <form 
-        className="m-5 w-full items-center flex flex-col justify-center"
-        method="post"
-        action="http://localhost:8080/submit">
-          <input
-            type="text"
-            id="link_input"
-            name="link"
-            className="bg-stone-200 p-3 rounded-xl w-full"
-          />
-        <input type="submit"  value='Create CV!' className="transition duration-200 bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-800 text-2xl m-5"></input>
-      </form>
+      <div className="flex flex-col items-center justify-center">
 
-      
+        <form 
+          className="m-5 w-full items-center flex flex-col justify-center text-center"
+          method="post"
+          encType="multipart/form-data"
+          action="http://localhost:8080/submit">
+            <input
+              type="file"
+              id="link_input"
+              name="file"
+              className="flex items-center justify-center"
+            />
+            {/* need to check if pdf is uploaded before continuing */}
+          <input type="submit"  value='Create CV!' className="transition duration-200 bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-800 text-2xl m-5"></input>
+        </form>
+      </div>
     </div>
   );
 }

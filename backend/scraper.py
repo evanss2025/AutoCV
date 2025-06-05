@@ -1,17 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
+from pypdf import PdfReader
 
-def scraper_name(link):
-    html_text = requests.get(link).text
-    soup = BeautifulSoup(html_text, "lxml")
+def scraper_name(file):
+    reader = PdfReader(file)
+    number_of_pages = len(reader.pages)
+    print(number_of_pages)
 
-    name = "Sophia Evans" #testing
-    print(name)
-    
-    return name
+    text = ""
 
+    for page in reader.pages:
+        text += page.extract_text()
 
-
+    return text
 
 def print_link(link):
     print("scraper running")
