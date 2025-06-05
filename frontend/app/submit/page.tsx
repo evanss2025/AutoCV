@@ -25,7 +25,7 @@ export default function Home() {
       <h3 className="text-lg">Link your LinkedIn profile below</h3>
 
       <form 
-        className="m-5 w-full"
+        className="m-5 w-full items-center flex flex-col justify-center"
         method="post"
         action="http://localhost:8080/submit">
           <input

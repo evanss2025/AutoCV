@@ -2,6 +2,7 @@
 
 from flask import Flask, jsonify, request, url_for, render_template, redirect
 from flask_cors import CORS #helps with cross resources from connecting front to back end
+from scraper import scraper_name
 
 #app instance
 app = Flask(__name__)
@@ -21,7 +22,14 @@ def submit_form():
 @app.route("/home")
 def link():
     lnk = request.args.get("lnk")
-    return f"{lnk}"
+    return get_name(lnk)
+
+
+def get_name(lnk):
+    name = scraper_name(lnk)
+    print(name)
+    return jsonify({"name": name})
+
 
 
 if __name__ == '__main__':
