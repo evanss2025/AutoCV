@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center min-h-screen mt-5 w-10/12">
-      <h1 className="text-2xl bg-blue-600 p-3 text-white rounded-xl">Your Resumes:</h1>
+      <h1 className="text-3xl p-3rounded-xl m-3">Your Resumes:</h1>
       <div className="mt-5 grid grid-rows-2 grid-cols-4 w-full items-center gap-5" id='resumes'>
         <Resume 
           name="resume 1"

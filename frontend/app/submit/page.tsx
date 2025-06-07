@@ -30,7 +30,7 @@ export default function Home() {
           className="m-5 w-full items-center flex flex-col justify-center text-center"
           method="post"
           encType="multipart/form-data"
-          action="http://localhost:8080/submit">
+          action="http://localhost:3000/home">
             <input
               type="file"
               id="link_input"
