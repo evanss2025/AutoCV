@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 from pypdf import PdfReader
 
+parts=[]
+
 def scraper_name(file):
     reader = PdfReader(file)
     number_of_pages = len(reader.pages)
@@ -10,10 +12,17 @@ def scraper_name(file):
     text = ""
 
     for page in reader.pages:
-        text += page.extract_text()
+        text += page.extract_text(extraction_mode="layout", layout_mode_space_vertically=True)
 
-    return text
+    page.extract_text(visitor_text=visitor_body)
+    text_body = "".join(parts)
 
-def print_link(link):
-    print("scraper running")
-    return print(link)
+    # print(f"textbody: {text_body} parts: {parts}")
+
+    return text_body
+
+def visitor_body(text, cm, tm, font_dict, font_size):
+    y = cm[5]
+    if 50 < y < 720:
+        parts.append(text)
+
