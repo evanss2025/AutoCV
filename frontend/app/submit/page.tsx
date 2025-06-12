@@ -1,22 +1,37 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  // const [message, setMessage] = useState("loading");
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/").then(
-  //     response => response.json()
-  //   ).then(
-  //     data => {
-  //       console.log(data);
-  //       setMessage(data.message);
-  //     }
-  //   )
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const submitButton = document.getElementById('submit');
 
-  // }, [])
+    if (loading && submitButton) {
+      submitButton.classList.add('animate-spin')
+    }
+
+    const res = await fetch("http://localhost:8080/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (res.ok) {
+      router.push("/home"); // redirect to home  if upload is successful
+    } else {
+      alert("Upload failed");
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen w-1/4">
@@ -28,17 +43,17 @@ export default function Home() {
 
         <form 
           className="m-5 w-full items-center flex flex-col justify-center text-center"
-          method="post"
-          encType="multipart/form-data"
-          action="http://localhost:3000/home">
+          onSubmit={handleFormSubmit}
+        >
             <input
               type="file"
               id="link_input"
               name="file"
-              className="flex items-center justify-center"
+              className="flex items-center justify-center text-center"
+              required
             />
             {/* need to check if pdf is uploaded before continuing */}
-          <input type="submit"  value='Create CV!' className="transition duration-200 bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-800 text-2xl m-5"></input>
+          <input id="submit" type="submit"  value={loading ? "Uploading Resume..." : "Create CV!"} className="transition duration-200 bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-800 text-2xl m-5"></input>
         </form>
       </div>
     </div>

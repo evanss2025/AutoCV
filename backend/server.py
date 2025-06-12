@@ -2,23 +2,43 @@
 
 from flask import Flask, jsonify, request, url_for, render_template, redirect
 from flask_cors import CORS #helps with cross resources from connecting front to back end
-from scraper import scraper_name
+from scraper import scraper_text
 
 #app instance
 app = Flask(__name__)
 CORS(app)
+
+resume_sections = {
+    'name': 'No Name',
+    'contact': 'No Contact',
+    'experience': []
+}
+
+print('flask running')
     
 @app.route('/submit', methods=['GET', 'POST'])
 def submit_form():
     print("submit form running")
     if request.method == 'POST':
-        f = request.files['file']
-        print("file:", f)
-        content = scraper_name(f)
+        pdf = request.files['file']
+        print("file:", pdf)
+        content = scraper_text(pdf)
+        print(content)
+
+        resume_sections['contact'] = content.get('contact')
         
         return content
     else:
         return "not post"
+
+@app.route('/home', methods=['GET'])
+def get_info():
+    if request.method == 'GET':
+        return jsonify({
+            'contact': resume_sections['contact'],
+            'name': resume_sections['name'],
+            'experiences': resume_sections['experience']
+            })
 
 if __name__ == '__main__':
     # run the app, debug=true only for development, remove in production

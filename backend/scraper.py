@@ -1,28 +1,31 @@
-from bs4 import BeautifulSoup
-import requests
-from pypdf import PdfReader
+import fitz
 
-parts=[]
+def scraper_text(pdf):
+    print("scraper text running")
+    pages = fitz.open(stream=pdf.read(), filetype="pdf")
 
-def scraper_name(file):
-    reader = PdfReader(file)
-    number_of_pages = len(reader.pages)
-    print(number_of_pages)
+    left_column = ""
+    right_column = ""
 
-    text = ""
+    for page in pages:
+        width = page.rect.width
 
-    for page in reader.pages:
-        text += page.extract_text(extraction_mode="layout", layout_mode_space_vertically=True)
+        left_rect = fitz.Rect(0, 0, width / 3, page.rect.height)
+        right_rect = fitz.Rect(width / 3, 0, width, page.rect.height)
 
-    page.extract_text(visitor_text=visitor_body)
-    text_body = "".join(parts)
+        left_column += page.get_text("text", clip=left_rect)
+        right_column += page.get_text("text", clip=right_rect)
 
-    # print(f"textbody: {text_body} parts: {parts}")
+        left_column.strip()
+        right_column.strip()
 
-    return text_body
+    lines = left_column.splitlines() + right_column.splitlines()
+    lines = [line.strip() for line in lines if line.strip()]
 
-def visitor_body(text, cm, tm, font_dict, font_size):
-    y = cm[5]
-    if 50 < y < 720:
-        parts.append(text)
+    contact = lines[1]
 
+    return {
+        "name": "scraper name",
+        "contact": contact,
+        "experiences": [],
+    }
