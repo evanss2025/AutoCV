@@ -6,7 +6,15 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   
   const router = useRouter();
+  const [file, setFile] = useState("No File Selected")
   const [loading, setLoading] = useState(false);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    if (input && input.files && input.files.length > 0) {
+      setFile(input.files[0].name);
+    }
+  }
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,15 +53,22 @@ export default function Home() {
           className="m-5 w-full items-center flex flex-col justify-center text-center"
           onSubmit={handleFormSubmit}
         >
+            <label
+              htmlFor="link_input"
+              className="cursor-pointer px-4 py-2 bg-gray-200 rounded-lg text-center hover:bg-gray-300"
+            >
+              Upload Linkedin Data
+            </label>
             <input
               type="file"
               id="link_input"
               name="file"
-              className="flex items-center justify-center text-center"
+              className="hidden"
+              onChange={handleUpload}
               required
             />
-            {/* need to check if pdf is uploaded before continuing */}
-          <input id="submit" type="submit"  value={loading ? "Uploading Resume..." : "Create CV!"} className="transition duration-200 bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-800 text-2xl m-5"></input>
+            <h2 id="file" className="m-2">{file}</h2>
+          <input id="submit" type="submit"  value={loading ? "Uploading Resume..." : "Create CV!"} className="cursor-pointer transition duration-200 bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-800 text-2xl m-3"></input>
         </form>
       </div>
     </div>

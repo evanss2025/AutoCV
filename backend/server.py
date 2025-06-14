@@ -1,6 +1,6 @@
 # flask code
 
-from flask import Flask, jsonify, request, url_for, render_template, redirect
+from flask import Flask, jsonify, request, url_for, render_template, redirect, send_file
 from flask_cors import CORS #helps with cross resources from connecting front to back end
 from scraper import scraper_text
 
@@ -11,7 +11,8 @@ CORS(app)
 resume_sections = {
     'name': 'No Name',
     'contact': 'No Contact',
-    'experience': []
+    'experience': [],
+    'file-content': ""
 }
 
 print('flask running')
@@ -26,6 +27,7 @@ def submit_form():
         print(content)
 
         resume_sections['contact'] = content.get('contact')
+        resume_sections['file-content'] = content
         
         return content
     else:
@@ -37,8 +39,13 @@ def get_info():
         return jsonify({
             'contact': resume_sections['contact'],
             'name': resume_sections['name'],
-            'experiences': resume_sections['experience']
+            'experiences': resume_sections['experience'],
+            'file-content': resume_sections['file-content'],
             })
+    
+def download(path):
+    path = path
+    return send_file(path, as_attachement=True)
 
 if __name__ == '__main__':
     # run the app, debug=true only for development, remove in production

@@ -28,4 +28,5 @@ def scraper_text(pdf):
         "name": "scraper name",
         "contact": contact,
         "experiences": [],
+        "file-content": lines
     }

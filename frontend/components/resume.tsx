@@ -7,7 +7,7 @@ function Resume({name}: {name: String}) {
             <div id='placeholder-image' className='bg-slate-300 p-5 m-2'>placeholder image</div>
             <h1>{name}</h1>
         </div>
-        <button className='text-lg w-full outline-blue-600 p-2 rounded-xl mt-5 outline-2 hover:bg-stone-100 transition duration-200'>Edit</button>
+        <button className='text-lg w-full outline-blue-600 p-2 rounded-xl mt-5 outline-2 hover:bg-stone-100 transition duration-200'>View</button>
         <button className='text-lg w-full bg-blue-600 p-2 text-white rounded-xl mt-5 hover:bg-blue-800 transition duration-200'>Download</button>
         
     </div>
