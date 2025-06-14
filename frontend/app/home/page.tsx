@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
     const [contact, setContact] = useState("Loading...");
+    const [name, setName] = useState("Loading...");
     const router = useRouter();
 
     useEffect(() => {
@@ -14,6 +15,7 @@ export default function Home() {
         response => response.json()
       ) .then(data => {
           setContact(data.contact)
+          setName(data.name)
     })
     .catch(error => {
       // 4. If there’s an error (like server isn’t running), show a message
@@ -34,24 +36,25 @@ export default function Home() {
       </div>
       <h1 className="text-3xl p-3rounded-xl m-3">Your Resumes:</h1>
       <h1>{contact}</h1>
+      <h1>{name}</h1>
       <div className="mt-5 grid grid-rows-2 grid-cols-4 w-full items-center gap-5" id='resumes'>
         <Resume 
-          name="resume 1"
+          name="Original Resume"
         />
         <Resume
-          name="resume 2"
+          name="Ivy League"
         />
         <Resume
-          name="resume 3"
+          name="Stylish"
         />
         <Resume
-          name="resume 4"
+          name="Single Column"
         />
         <Resume
-          name="resume 5"
+          name="Double Column"
         />
         <Resume
-          name="resume 6"
+          name="Classic"
         />
       </div>
     </div>

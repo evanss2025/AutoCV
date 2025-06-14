@@ -3,6 +3,7 @@
 from flask import Flask, jsonify, request, url_for, render_template, redirect, send_file
 from flask_cors import CORS #helps with cross resources from connecting front to back end
 from scraper import scraper_text
+from pdf import PDF
 
 #app instance
 app = Flask(__name__)
@@ -24,9 +25,9 @@ def submit_form():
         pdf = request.files['file']
         print("file:", pdf)
         content = scraper_text(pdf)
-        print(content)
 
         resume_sections['contact'] = content.get('contact')
+        resume_sections['name'] = content.get('name')
         resume_sections['file-content'] = content
         
         return content
@@ -35,6 +36,9 @@ def submit_form():
 
 @app.route('/home', methods=['GET'])
 def get_info():
+    pdf = PDF(resume_sections['contact'], resume_sections['name'], 'experiences', 'classic')
+    pdf.print_details()
+
     if request.method == 'GET':
         return jsonify({
             'contact': resume_sections['contact'],
