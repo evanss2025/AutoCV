@@ -3,6 +3,7 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.lib import colors
+from io import BytesIO
 
 class PDF:
     def __init__(self, name, contact, experiences, type):
@@ -10,13 +11,19 @@ class PDF:
         self.contact = contact
         self.experiences = experiences
         self.type = type
+        self.buffer = BytesIO()
 
     def print_details(self):
         print(self.name, self.contact, self.type)
 
-    def create_pdf():
-        print('placeholder')
-        #create pdf
+    def create_pdf(self):
+        pdf = canvas.Canvas(self.buffer)
+
+        pdf.drawString(100, 750, self.type)
+
+        pdf.save()
+        self.buffer.seek(0) 
+        return self.buffer
 
 # c = canvas.Canvas("resume.pdf")
 # c.save()

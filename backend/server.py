@@ -47,9 +47,24 @@ def get_info():
             'file-content': resume_sections['file-content'],
             })
     
-def download(path):
-    path = path
-    return send_file(path, as_attachement=True)
+#downloading route 
+@app.route('/download/<type>', methods=['GET'])
+def download(type):
+    pdf = PDF (
+        name = resume_sections['name'],
+        contact = resume_sections['contact'],
+        experiences = resume_sections['experience'],
+        type = type
+    )
+    PDF_buffer = pdf.create_pdf()
+
+    return send_file (
+        PDF_buffer,
+        as_attachment = True,
+        download_name = f"{type}_resume.pdf",
+        mimetype = "application/pdf"
+    )
+
 
 if __name__ == '__main__':
     # run the app, debug=true only for development, remove in production

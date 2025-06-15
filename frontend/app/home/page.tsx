@@ -5,7 +5,6 @@ import Resume from '../../components/resume';
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-    const [contact, setContact] = useState("Loading...");
     const [name, setName] = useState("Loading...");
     const router = useRouter();
 
@@ -14,12 +13,11 @@ export default function Home() {
       fetch('http://localhost:8080/home').then(
         response => response.json()
       ) .then(data => {
-          setContact(data.contact)
-          setName(data.name)
+          setName(data.name.trim())
     })
     .catch(error => {
       // 4. If there’s an error (like server isn’t running), show a message
-      setContact("Can't find contact")
+      setName("Can't find name")
     });
 
     
@@ -34,26 +32,30 @@ export default function Home() {
       <div id="go-back" className="text-4xl font-bold absolute left-10">
         <button onClick={goBack}>&larr;</button>
       </div>
-      <h1 className="text-3xl p-3rounded-xl m-3">Your Resumes:</h1>
-      <h1>{contact}</h1>
-      <h1>{name}</h1>
+      <h1 className="text-3xl p-3rounded-xl m-3">Hi, {name}, here are your resumes:</h1>
       <div className="mt-5 grid grid-rows-2 grid-cols-4 w-full items-center gap-5" id='resumes'>
-        <Resume 
+        <Resume
+          image="public/ivy_league_example.png"
           name="Original Resume"
         />
         <Resume
+          image="public/ivy_league_example.png"
           name="Ivy League"
         />
         <Resume
+          image="public/stylish_example.jpg"
           name="Stylish"
         />
         <Resume
+          image="public/single_column_example.png"
           name="Single Column"
         />
         <Resume
+          image="public/double_column_example.png"
           name="Double Column"
         />
         <Resume
+          image="public/classic_example.png"
           name="Classic"
         />
       </div>
