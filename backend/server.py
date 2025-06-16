@@ -11,6 +11,7 @@ CORS(app)
 
 resume_sections = {
     'name': 'No Name',
+    'title': 'No Title',
     'contact': 'No Contact',
     'experience': [],
     'file-content': ""
@@ -28,6 +29,7 @@ def submit_form():
 
         resume_sections['contact'] = content.get('contact')
         resume_sections['name'] = content.get('name')
+        resume_sections['title'] = content.get('title')
         resume_sections['file-content'] = content
         
         return content
@@ -36,13 +38,14 @@ def submit_form():
 
 @app.route('/home', methods=['GET'])
 def get_info():
-    pdf = PDF(resume_sections['contact'], resume_sections['name'], 'experiences', 'classic')
+    pdf = PDF(resume_sections['contact'], resume_sections['name'], resume_sections['title'], 'experiences', 'classic')
     pdf.print_details()
 
     if request.method == 'GET':
         return jsonify({
             'contact': resume_sections['contact'],
             'name': resume_sections['name'],
+            'title': resume_sections['title'],
             'experiences': resume_sections['experience'],
             'file-content': resume_sections['file-content'],
             })
@@ -52,6 +55,7 @@ def get_info():
 def download(type):
     pdf = PDF (
         name = resume_sections['name'],
+        title = resume_sections['title'],
         contact = resume_sections['contact'],
         experiences = resume_sections['experience'],
         type = type

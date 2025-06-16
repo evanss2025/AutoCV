@@ -7,12 +7,26 @@ def scraper_text(pdf):
     left_column = ""
     right_column = ""
     name = ""
+    title = ""
+    location = ""
+    summary = ""
+    experience = ""
+    education = ""
+    skills = ""
+    awards = ""
 
     width = pages[0].rect.width
     height = pages[0].rect.height
 
     name_rect = fitz.Rect(width / 3, 0, width, height / 12)
+    title_rect = fitz.Rect(width / 3, height / 12, width, height / 12)
+    # location_rect = fitz.Rect()
+    # summary_rect = fitz.Rect()
+
     name += pages[0].get_text("text", clip=name_rect)
+    title += pages[0].get_text("text", clip=title_rect)
+
+    print("TITLE:", title)
 
     for page in pages:
 
@@ -29,6 +43,7 @@ def scraper_text(pdf):
 
     return {
         "name": name,
+        "title": title,
         "contact": contact,
         "experiences": [],
         "file-content": lines

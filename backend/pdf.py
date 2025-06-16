@@ -6,8 +6,9 @@ from reportlab.lib import colors
 from io import BytesIO
 
 class PDF:
-    def __init__(self, name, contact, experiences, type):
+    def __init__(self, name, title, contact, experiences, type):
         self.name = name
+        self.title = title
         self.contact = contact
         self.experiences = experiences
         self.type = type
@@ -19,7 +20,7 @@ class PDF:
     def create_pdf(self):
         pdf = canvas.Canvas(self.buffer)
 
-        pdf.drawString(100, 750, self.type)
+        pdf.drawString(100, 750, self.title)
 
         pdf.save()
         self.buffer.seek(0) 
