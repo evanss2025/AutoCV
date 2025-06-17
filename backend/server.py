@@ -11,9 +11,14 @@ CORS(app)
 
 resume_sections = {
     'name': 'No Name',
-    'title': 'No Title',
     'contact': 'No Contact',
-    'experience': [],
+    'summary': 'No Summary',
+    'experiences': 'No Experience',
+    'education': 'No Education',
+    'skills': 'No Skills',
+    'languages': 'No Languages',
+    'certifications': 'No Certifications',
+    'awards': 'No Awards',
     'file-content': ""
 }
 
@@ -29,7 +34,13 @@ def submit_form():
 
         resume_sections['contact'] = content.get('contact')
         resume_sections['name'] = content.get('name')
-        resume_sections['title'] = content.get('title')
+        resume_sections['summary'] = content.get('summary')
+        resume_sections['experiences'] = content.get('experiences')
+        resume_sections['education'] = content.get('education')
+        resume_sections['skills'] = content.get('skills')
+        resume_sections['languages'] = content.get('languages')
+        resume_sections['certifications'] = content.get('certifications')
+        resume_sections['awards'] = content.get('awards')
         resume_sections['file-content'] = content
         
         return content
@@ -38,15 +49,17 @@ def submit_form():
 
 @app.route('/home', methods=['GET'])
 def get_info():
-    pdf = PDF(resume_sections['contact'], resume_sections['name'], resume_sections['title'], 'experiences', 'classic')
-    pdf.print_details()
-
     if request.method == 'GET':
         return jsonify({
             'contact': resume_sections['contact'],
             'name': resume_sections['name'],
-            'title': resume_sections['title'],
-            'experiences': resume_sections['experience'],
+            'summary': resume_sections['summary'],
+            'experiences': resume_sections['experiences'],
+            'education': resume_sections['education'],
+            'skills': resume_sections['skills'],
+            'languages': resume_sections['languages'],
+            'certifications': resume_sections['certifications'],
+            'awards': resume_sections['awards'],
             'file-content': resume_sections['file-content'],
             })
     
@@ -55,12 +68,19 @@ def get_info():
 def download(type):
     pdf = PDF (
         name = resume_sections['name'],
-        title = resume_sections['title'],
         contact = resume_sections['contact'],
-        experiences = resume_sections['experience'],
+        summary = resume_sections['summary'],
+        experiences = resume_sections['experiences'],
+        education = resume_sections['education'],
+        skills = resume_sections['skills'],
+        languages = resume_sections['languages'],
+        certifications = resume_sections['certifications'],
+        awards =  resume_sections['awards'],
         type = type
     )
     PDF_buffer = pdf.create_pdf()
+
+    pdf.print_details()
 
     return send_file (
         PDF_buffer,

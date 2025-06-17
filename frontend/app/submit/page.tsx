@@ -45,7 +45,7 @@ export default function Home() {
     <div className="flex flex-col justify-center items-center min-h-screen w-1/4">
       {/* <h3>{message}</h3> */}
       <h1 className="text-6xl font-bold m-6">AutoCV</h1>
-      <h3 className="text-lg">Upload your LinkedIn data below:</h3>
+      <h3 className="text-lg">Upload your LinkedIn resume below:</h3>
 
       <div className="flex flex-col items-center justify-center">
 
@@ -57,7 +57,7 @@ export default function Home() {
               htmlFor="link_input"
               className="cursor-pointer px-4 py-2 bg-gray-200 rounded-lg text-center hover:bg-gray-300"
             >
-              Upload Linkedin Data
+              Upload Linkedin Resume
             </label>
             <input
               type="file"
