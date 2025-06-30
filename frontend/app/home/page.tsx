@@ -10,7 +10,7 @@ export default function Home() {
 
     useEffect(() => {
     
-      fetch('http://localhost:8080/home').then(
+      fetch('https://autocv-s863.onrender.com/home').then(
         response => response.json()
       ) .then(data => {
           setName(data.name.trim())

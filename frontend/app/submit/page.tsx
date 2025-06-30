@@ -28,7 +28,7 @@ export default function Home() {
       submitButton.classList.add('animate-spin')
     }
 
-    const res = await fetch("http://localhost:8080/submit", {
+    const res = await fetch("https://autocv-s863.onrender.com/submit", {
       method: "POST",
       body: formData,
     });
