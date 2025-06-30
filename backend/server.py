@@ -80,7 +80,7 @@ def download(type):
     )
     PDF_buffer = pdf.create_pdf()
 
-    pdf.print_details()
+    # pdf.print_details()
 
     return send_file (
         PDF_buffer,
