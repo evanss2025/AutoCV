@@ -4,7 +4,7 @@ function Resume({name, image}: {name: String, image: any}) {
 
     const handleDownload = async () => {
         console.log('handle download running');
-        const res = await fetch(`http://localhost:8080/download/${name.toLowerCase().replace(/\s+/g, '-')}`);
+        const res = await fetch(`https://autocv-s863.onrender.com/download/${name.toLowerCase().replace(/\s+/g, '-')}`);
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -16,7 +16,7 @@ function Resume({name, image}: {name: String, image: any}) {
 
     const handleView = async () => {
         console.log('handle view running');
-        const res = await fetch(`http://localhost:8080/download/${name.toLowerCase().replace(/\s+/g, '-')}`);
+        const res = await fetch(`https://autocv-s863.onrender.com/download/${name.toLowerCase().replace(/\s+/g, '-')}`);
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         window.open(url, '_blank');
