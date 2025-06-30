@@ -92,4 +92,4 @@ def download(type):
 
 if __name__ == '__main__':
     # run the app, debug=true only for development, remove in production
-    app.run(debug=True, port=8080)
+    app.run(port=8080)
