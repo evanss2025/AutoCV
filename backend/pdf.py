@@ -42,8 +42,6 @@ class PDF:
             self.ivy_league_resume()
         elif (self.type) == "single-column":
             self.single_column_resume()
-        # elif (self.type) == "classic":
-        #     self.classic_resume()
         else:
             print("no type defined")
         
@@ -65,16 +63,19 @@ class PDF:
 
         story = []
 
+        # Name
         story.append(Paragraph(f"<b>{(self.name).upper()}</b>", header))
         story.append(Spacer(1, 2))
 
+        # Contact - join list items to avoid breaking links/multiline text
         contact_string = ""
         if isinstance(self.contact, list):
-            contact_string = " | ".join(self.contact)
+            contact_string = " · ".join(self.contact)
         elif isinstance(self.contact, str):
             contact_string = self.contact
-        story.append(Paragraph(contact_string, contact)) 
+        story.append(Paragraph(contact_string, contact))
 
+        # Summary
         if self.summary:
             summary = " ".join(self.summary) if isinstance(self.summary, list) else self.summary
             story.append(Paragraph("Summary", section_title))
@@ -82,6 +83,7 @@ class PDF:
             story.append(Spacer(1, 8)) 
             story.append(Paragraph(summary, normal))
 
+        # Experiences
         if self.experiences:
             story.append(Paragraph("Experience", section_title))
             story.append(HRFlowable(width="100%", thickness=1, lineCap='round', color=colors.HexColor('#333333')))
@@ -115,13 +117,11 @@ class PDF:
                     if exp.get('description'):
                         story.append(Paragraph(exp['description'], bullet))
 
+        # Education
         if self.education:
             story.append(Paragraph("Education", section_title))
             story.append(HRFlowable(width="100%", thickness=1, lineCap='round', color=colors.HexColor('#333333')))
             story.append(Spacer(1, 8)) 
-
-            title = ""
-            date = ""
 
             for i in range(0, len(self.education), 2):
                 title = self.education[i]
@@ -145,6 +145,7 @@ class PDF:
 
                 story.append(table)
 
+        # Awards (joined as continuous line)
         if self.awards:
             story.append(Paragraph("Key Achievements", section_title))
             story.append(HRFlowable(width="100%", thickness=1, lineCap='round', color=colors.HexColor('#333333')))
@@ -152,23 +153,23 @@ class PDF:
             awards_text = " · ".join(self.awards)
             story.append(Paragraph(awards_text, subheader))
 
+        # Skills (joined as continuous line)
         if self.skills:
             story.append(Paragraph("Skills", section_title))
             story.append(HRFlowable(width="100%", thickness=1, lineCap='round', color=colors.HexColor('#333333')))
             story.append(Spacer(1, 5))
-            awards_text = " · ".join(self.skills)
-            story.append(Paragraph(awards_text, subheader))
+            skills_text = " · ".join(self.skills)
+            story.append(Paragraph(skills_text, subheader))
 
+        # Certifications (joined as continuous line)
         if self.certifications:
             story.append(Paragraph("Certifications", section_title))
             story.append(HRFlowable(width="100%", thickness=1, lineCap='round', color=colors.HexColor('#333333')))
             story.append(Spacer(1, 5))
-            awards_text = " · ".join(self.certifications)
-            story.append(Paragraph(awards_text, subheader))
-
+            certs_text = " · ".join(self.certifications)
+            story.append(Paragraph(certs_text, subheader))
 
         doc.build(story)
-
         self.buffer.seek(0)
         return self.buffer
 
@@ -186,19 +187,19 @@ class PDF:
         
         story = []
 
-        # name
+        # Name
         story.append(Paragraph(f"<b>{self.name}</b>", header))
         story.append(Spacer(1, 2)) 
 
-        # contact
+        # Contact - joined
         contact_string = ""
         if isinstance(self.contact, list):
-            contact_string = " | ".join(self.contact)
+            contact_string = " · ".join(self.contact)
         elif isinstance(self.contact, str):
             contact_string = self.contact
         story.append(Paragraph(contact_string, subheader))
 
-        # sum
+        # Summary
         if self.summary:
             summary = " ".join(self.summary) if isinstance(self.summary, list) else self.summary
             story.append(Paragraph("SUMMARY", section_title))
@@ -206,7 +207,7 @@ class PDF:
             story.append(Spacer(1, 8)) 
             story.append(Paragraph(summary, normal))
 
-        # experiences
+        # Experiences
         if self.experiences:
             story.append(Paragraph("EXPERIENCE", section_title))
             story.append(HRFlowable(width="100%", thickness=2, lineCap='round', color=colors.HexColor('#333333')))
@@ -220,13 +221,12 @@ class PDF:
                         detail_line += exp['date']
                     if exp['location']:
                         detail_line += f", {exp['location']}"
-
                     story.append(Paragraph(detail_line, details))
 
                     if exp['description']:
                         story.append(Paragraph(exp['description'], bullet))
 
-        # edu
+        # Education
         if self.education:
             story.append(Paragraph("EDUCATION", section_title))
             story.append(HRFlowable(width="100%", thickness=2, lineCap='round', color=colors.HexColor('#333333')))
@@ -237,12 +237,12 @@ class PDF:
                 else:
                     story.append(Paragraph(edu, bullet))
 
-        # awards
+        # Awards (joined)
         if self.awards:
             story.append(Paragraph("KEY ACHIEVEMENTS", section_title))
             story.append(HRFlowable(width="100%", thickness=2, lineCap='round', color=colors.HexColor('#333333')))
             story.append(Spacer(1, 5))
-            awards_text = " | ".join(self.awards)
+            awards_text = " · ".join(self.awards)
             story.append(Paragraph(awards_text, subheader))
 
         story.append(Spacer(1, 12))
@@ -250,6 +250,3 @@ class PDF:
 
         self.buffer.seek(0)
         return self.buffer
-    
-    def classic_resume(self):
-        print("classic")

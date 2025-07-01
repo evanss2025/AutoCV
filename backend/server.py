@@ -21,15 +21,11 @@ resume_sections = {
     'awards': 'No Awards',
     'file-content': ""
 }
-
-print('flask running')
     
 @app.route('/submit', methods=['GET', 'POST'])
 def submit_form():
-    print("submit form running")
     if request.method == 'POST':
         pdf = request.files['file']
-        print("file:", pdf)
         content = scraper_text(pdf)
 
         resume_sections['contact'] = content.get('contact')
@@ -92,4 +88,4 @@ def download(type):
 
 if __name__ == '__main__':
     # run the app, debug=true only for development, remove in production
-    app.run(host="0.0.0.0", port=8080)
+    app.run(debug=True, host="0.0.0.0", port=8080)

@@ -1,5 +1,5 @@
 import fitz
-from experiences import parse_experiences_with_ai
+from experiences import parse_experiences_with_ai, parse_left_column_section_with_ai
 
 def scraper_text(pdf):
     pages = fitz.open(stream=pdf.read(), filetype="pdf")
@@ -38,10 +38,17 @@ def scraper_text(pdf):
     if "" in parsed_resume:
         parsed_resume.pop("")
 
+    left_sections = ["Contact", "Top Skills", "Languages", "Certifications", "Honors-Awards"]
+    for section in left_sections:
+        section_text = "\n".join(parsed_resume.get(section, []))
+        if section_text.strip():
+            parsed_resume[section] = parse_left_column_section_with_ai(section, section_text)
+        else:
+            parsed_resume[section] = []
+
     experience_lines = parsed_resume.get("Experience", [])
     experience_text = "\n".join(experience_lines)
     structured_experiences = parse_experiences_with_ai(experience_text)
-
     parsed_resume["Experience"] = structured_experiences
 
     return {
